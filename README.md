@@ -83,9 +83,9 @@ Peaks in $g(\omega)$ correspond to characteristic vibrational frequencies of the
 | FFT (PDOS) | $O(\tau \log \tau)$ | Fast Fourier Transform |
 
 With $N = 64$, $S = 10{,}000$, and $\tau = 2{,}000$:
-- Total simulation: ~$4 \times 10^7$ force evaluations
-- VACF: ~$1.6 \times 10^6$ dot products (with stride = 10)
-- FFT: ~$2{,}000 \times \log(2{,}000) \approx 22{,}000$ operations
+- Total simulation: ~ $4 \times 10^7$ force evaluations
+- VACF: ~ $1.6 \times 10^6$ dot products (with stride = 10)
+- FFT: ~ $2{,}000 \times \log(2{,}000) \approx 22{,}000$ operations
 ---
 
 ## Results
