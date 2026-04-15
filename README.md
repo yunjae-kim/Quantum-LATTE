@@ -68,7 +68,7 @@ $$g(\omega) = \left| \mathcal{F}\left[ C(t) \cdot w(t) \right] \right|$$
 
 where $w(t) = \frac{1}{2}\left(1 - \cos\left(\frac{2\pi t}{T}\right)\right)$ is the Hanning window.
 
-Peaks in $g(\omega)$ correspond to characteristic vibrational frequencies of the solid — analogous to phonon branches in a crystal.
+Peaks in $g(\omega)$ correspond to characteristic vibrational frequencies of the solid.
 
 ---
 
