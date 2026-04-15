@@ -72,46 +72,7 @@ Peaks in $g(\omega)$ correspond to characteristic vibrational frequencies of the
 
 ---
 
-## Algorithm
-
-```
-1. INITIALIZE
-   └─ Place 64 atoms on a 2D square grid inside box [0, L]²
-   └─ Assign random velocities, remove net momentum, rescale to T*
-
-2. EQUILIBRATE (2000 steps)
-   └─ Run Velocity Verlet without recording — let system relax
-
-3. PRODUCTION RUN (8000 steps, dt = 0.005)
-   └─ For each step:
-       ├─ Compute pairwise forces (all N² pairs, with PBC)
-       ├─ Update positions and velocities via Velocity Verlet
-       └─ Record velocity snapshot
-
-4. COMPUTE VACF
-   └─ For multiple time origins t₀ (stride = 10):
-       └─ Correlate v(t₀) · v(t₀ + t) for t = 0 → max_lag
-   └─ Average over all origins
-
-5. COMPUTE PDOS
-   └─ Apply Hanning window to VACF
-   └─ Take FFT → frequency spectrum
-   └─ Optionally smooth with Gaussian filter (σ = 2)
-```
-
----
-
 ## Time Complexity
-
-### Force Calculation
-
-The most expensive step is computing all pairwise forces. For $N$ atoms:
-
-$$\text{Force calculation: } O(N^2) \text{ per step}$$
-
-Every atom interacts with every other atom, making $N(N-1)/2$ unique pairs. With $N = 64$ and using NumPy vectorization, this is fast enough to run in seconds, but scales poorly. Production MD codes address this with cell lists or neighbor lists, reducing force calculation to $O(N)$.
-
-### Full Simulation
 
 | Component | Complexity | Notes |
 |-----------|-----------|-------|
@@ -120,13 +81,6 @@ Every atom interacts with every other atom, making $N(N-1)/2$ unique pairs. With
 | Total simulation | $O(S \cdot N^2)$ | $S$ = number of steps |
 | VACF calculation | $O(T_0 \cdot \tau)$ | $T_0$ = origins, $\tau$ = max lag |
 | FFT (PDOS) | $O(\tau \log \tau)$ | Fast Fourier Transform |
-
-With $N = 64$, $S = 10{,}000$, and $\tau = 2{,}000$:
-- Total simulation: ~$4 \times 10^7$ force evaluations
-- VACF: ~$1.6 \times 10^6$ dot products (with stride = 10)
-- FFT: ~$2{,}000 \times \log(2{,}000) \approx 22{,}000$ operations
-
-The simulation bottleneck is the $O(N^2)$ force loop. Doubling $N$ quadruples runtime.
 
 ---
 
@@ -148,33 +102,6 @@ The raw PDOS shows many sharp peaks (discrete vibrational modes from the finite 
 - Hard cutoff around $\omega \approx 9$–$10$ (Debye-like frequency cutoff)
 
 The absence of a zero-frequency diffusion peak confirms the system is in a **solid phase**, consistent with the LJ phase diagram at $T^* = 0.5$, $\rho^* \approx 1.0$.
-
----
-
-## Project Structure
-
-```
-.
-├── main.py                        # Entry point — runs simulation and plots
-├── core/
-│   ├── potentials.py              # Lennard-Jones force calculation
-│   └── integrator.py              # Velocity Verlet MD engine
-├── utils/
-│   └── initialization.py          # Grid initialization
-└── analysis/
-    ├── autocorrelation.py         # VACF computation
-    ├── dos_calculator.py          # FFT → PDOS
-    └── theoretical_comparison.py  # Debye model overlay
-```
-
-## Running
-
-```bash
-pip install numpy scipy matplotlib
-python main.py
-```
-
-Requires Python 3.x. No GPU needed — runs on any laptop in under a minute for the default parameters.
 
 ---
 
