@@ -51,8 +51,8 @@ The VACF measures how correlated an atom's velocity is with its own velocity at 
 $$C(t) = \frac{\langle \vec{v}(t_0) \cdot \vec{v}(t_0 + t) \rangle}{\langle \vec{v}(t_0) \cdot \vec{v}(t_0) \rangle}$$
 
 - $C(0) = 1$ always (perfectly correlated with itself)
-- In a gas, $C(t)$ decays quickly to zero: atoms forget their direction after a collision
-- In a solid, $C(t)$ oscillates: atoms are trapped in a potential well and bounce back
+- In a gas, $C(t)$ decays quickly to zero
+- In a solid, $C(t)$ oscillates
 
 This simulation runs at $T^* = 0.5$ and $\rho^* \approx 1.0$, placing it firmly in the solid regime of the LJ phase diagram.
 
@@ -103,7 +103,7 @@ The raw PDOS shows many sharp peaks (discrete vibrational modes from the finite 
 - A peak near $\omega \approx 2$ (transverse acoustic modes)
 - A dominant peak near $\omega \approx 3$ (longitudinal/optical modes)  
 - A secondary feature near $\omega \approx 5.5$
-- Hard cutoff around $\omega \approx 9$–$10$ (Debye-like frequency cutoff)
+- Hard cutoff around $\omega \approx 9$ – $10$ (Debye-like frequency cutoff)
 
 The absence of a zero-frequency diffusion peak confirms the system is in a **solid phase**, consistent with the LJ phase diagram at $T^* = 0.5$, $\rho^* \approx 1.0$.
 
