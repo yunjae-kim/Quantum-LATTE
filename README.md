@@ -1,6 +1,6 @@
 # Quantum LATTE
 
-Quantum LATTE is a 2D molecular dynamics simulation of argon atoms interacting via the Lennard-Jones potential. It computes the velocity autocorrelation function (VACF) and phonon density of states (PDOS) using classical Newtonian mechanics.
+Quantum LATTE is a 2D molecular dynamics simulation of argon atoms interacting via the Lennard-Jones potential. It computes the velocity autocorrelation function (VACF) and phonon density of states (DOS) using classical Newtonian mechanics.
 
 ---
 
@@ -56,9 +56,9 @@ $$C(t) = \frac{\langle \vec{v}(t_0) \cdot \vec{v}(t_0 + t) \rangle}{\langle \vec
 
 This simulation runs at $T^* = 0.5$ and $\rho^* \approx 1.0$, placing it firmly in the solid regime of the LJ phase diagram.
 
-### Phonon Density of States (PDOS)
+### Phonon Density of States
 
-The PDOS tells us how many vibrational modes exist at each frequency. It is obtained by taking the Fourier transform of the VACF (Green-Kubo relation):
+The phonon DOS tells us how many vibrational modes exist at each frequency. It is obtained by taking the Fourier transform of the VACF (Green-Kubo relation):
 
 $$g(\omega) = \int_0^\infty C(t) \cos(\omega t) \, dt$$
 
@@ -80,7 +80,7 @@ Peaks in $g(\omega)$ correspond to characteristic vibrational frequencies of the
 | Verlet integration (per step) | $O(N)$ | Trivially parallel |
 | Total simulation | $O(S \cdot N^2)$ | $S$ = number of steps |
 | VACF calculation | $O(T_0 \cdot \tau)$ | $T_0$ = origins, $\tau$ = max lag |
-| FFT (PDOS) | $O(\tau \log \tau)$ | Fast Fourier Transform |
+| FFT (phonon DOS) | $O(\tau \log \tau)$ | Fast Fourier Transform |
 
 With $N = 64$, $S = 10{,}000$, and $\tau = 2{,}000$:
 - Total simulation: ~ $4 \times 10^7$ force evaluations
@@ -99,7 +99,7 @@ The VACF shows rapid initial decay followed by weak oscillations, consistent wit
 
 ### Phonon Density of States
 
-The raw PDOS shows many sharp peaks (discrete vibrational modes from the finite system). After Gaussian smoothing ($\sigma = 2$), the spectrum reveals broad phonon bands with:
+The raw phonon DOS shows many sharp peaks (discrete vibrational modes from the finite system). After Gaussian smoothing ($\sigma = 2$), the spectrum reveals broad phonon bands with:
 - A peak near $\omega \approx 2$ (transverse acoustic modes)
 - A dominant peak near $\omega \approx 3$ (longitudinal/optical modes)  
 - A secondary feature near $\omega \approx 5.5$
